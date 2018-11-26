@@ -1,8 +1,10 @@
 package plangenerator
 
 import (
+	"encoding/json"
 	"sync"
 	"testing"
+	"time"
 )
 
 var once sync.Once
@@ -11,6 +13,19 @@ var annuity *AnnuityPayment
 
 func getAnnuity() {
 	annuity = NewAnnuityPayment()
+}
+
+func TestCalculate(t *testing.T) {
+	once.Do(getAnnuity)
+	loan := 5000.00
+	rate := 5.00
+	months := 24
+	st, _ := time.Parse(time.RFC3339, "2018-01-01T00:00:01Z")
+
+	payments := annuity.Calculate(loan, rate, months, st)
+	b, _ := json.Marshal(payments)
+
+	t.Log(string(b))
 }
 
 func TestCalculateInterest(t *testing.T) {
