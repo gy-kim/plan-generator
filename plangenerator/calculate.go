@@ -19,7 +19,19 @@ func calAnnuityPayment(rate float64, months int, initPrincipal float64) float64 
 	pv := (1 - 1/square(1+r, months)) / r
 	annuity := initPrincipal / pv
 
-	return math.Round(annuity*100) / 100
+	return round(annuity)
+}
+
+func calPrincipal(annuity float64, interest float64) float64 {
+	return round(annuity - interest)
+}
+
+func calRemainPrincipal(initPrincipal float64, principal float64) float64 {
+	return round(initPrincipal - principal)
+}
+
+func round(v float64) float64 {
+	return math.Round(v*100) / 100
 }
 
 func square(v float64, times int) float64 {
