@@ -8,7 +8,7 @@ import (
 )
 
 func TestCalculate(t *testing.T) {
-	g := NewGenerator()
+	g := NewAnnuityPayment()
 	loanAmount := 5000.00
 	rate := 5.00
 	months := 24

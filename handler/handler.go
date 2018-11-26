@@ -1,10 +1,13 @@
 package handler
 
 import (
+	"errors"
 	"net/http"
+	"strconv"
 	"time"
 
 	"github.com/gy-kim/plan-generator/applogger"
+	"github.com/gy-kim/plan-generator/plangenerator"
 	"github.com/labstack/echo"
 )
 
@@ -24,5 +27,14 @@ func GeneratePlan(c echo.Context) error {
 		return err
 	}
 
-	return c.JSON(http.StatusCreated, p)
+	gen, err := plangenerator.GetGenerator(plangenerator.ANNUITY)
+	if err != nil {
+		return c.JSON(http.StatusInternalServerError, errors.New("internal server error"))
+	}
+
+	loanAmount, _ := strconv.ParseFloat(p.LoanAmount, 64)
+	rate, _ := strconv.ParseFloat(p.Rate, 64)
+	payments := gen.Calculate(loanAmount, rate, p.Duration, p.StartDate)
+
+	return c.JSON(http.StatusCreated, payments)
 }
