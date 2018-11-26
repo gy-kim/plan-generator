@@ -6,12 +6,12 @@ import (
 )
 
 type Payment struct {
-	Amount          float64
-	Date            time.Time
-	InitPrincipal   float64
-	Interest        float64
-	Principal       float64
-	RemainPrincipal float64
+	Amount          float64   `json:"borrowerPaymentAmount"`
+	Date            time.Time `json:"date"`
+	InitPrincipal   float64   `json:"initialOutstandingPrincipal"`
+	Interest        float64   `json:"interest"`
+	Principal       float64   `json:"principal"`
+	RemainPrincipal float64   `json:"remainingOutstandingPrincipal"`
 }
 
 const (
