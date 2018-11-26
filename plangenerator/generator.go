@@ -33,13 +33,7 @@ func (g *Generator) Calculate(loanAmount float64, rate float64, months int, star
 		interest := calInterest(rate, initPrincipal)
 		principal := 0.00
 
-		if i == (months - 1) {
-			principal = remainPrincipal
-			remainPrincipal = 0.00
-		} else {
-			principal = calPrincipal(annuity, interest)
-			remainPrincipal = calRemainPrincipal(initPrincipal, principal)
-		}
+		principal, remainPrincipal = calPrincipalRemainPrincipal(annuity, interest, initPrincipal)
 
 		payments[i] = Payment{
 			Amount:          math.Round((interest+principal)*100) / 100,
